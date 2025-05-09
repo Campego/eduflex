@@ -13,7 +13,7 @@ export default function DashboardPage() {
         <SignedOut>
           <p className="mt-4">Por favor, inicia sesión para acceder al dashboard.</p>
           <Link href="/sign-in">
-            <Button className="mt-4">Iniciar sesión</Button>
+            <Button className="mt-4">Iniciar sesiónn</Button>
           </Link>
         </SignedOut>
       </div>
