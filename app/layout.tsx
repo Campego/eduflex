@@ -13,7 +13,7 @@ import "./globals.css";
 const font = Nunito({ subsets: ["latin"] });
 
 export const viewport: Viewport = {
-  themeColor: "#f97316",
+  themeColor: "#FFA726",
 };
 
 export const metadata: Metadata = siteConfig;
@@ -30,7 +30,7 @@ export default function RootLayout({
           logoImageUrl: "/favicon.ico",
         },
         variables: {
-          colorPrimary: "#f97316",
+          colorPrimary: "#FFA726",
         },
       }}
     >

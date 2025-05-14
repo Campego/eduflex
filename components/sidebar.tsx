@@ -19,18 +19,19 @@ export const Sidebar = ({ className }: SidebarProps) => {
         className
       )}
     >
-      <Link href=":">
+      <Link href="/dashboard">
         <div className="flex items-center gap-x-3 pb-7 pl-4 pt-8">
           <Image src="/mascot.svg" alt="Mascot" height={40} width={40} />
 
-          <h1 className="text-2xl font-extrabold tracking-wide text-orange-600">
+          <h1 className="text-2xl font-extrabold tracking-wide text-orange-400">
             Eduflex
           </h1>
         </div>
       </Link>
 
       <div className="flex flex-1 flex-col gap-y-2">
-        <SidebarItem label="inicio" href=":" iconSrc="/inicio.svg" />
+        <SidebarItem label="inicio" href="/dashboard" iconSrc="/inicio.svg" />
+        <SidebarItem label="Test de Nivel" href="/level-test" iconSrc="/test.svg" />
       </div>
 
       <div className="p-4">
