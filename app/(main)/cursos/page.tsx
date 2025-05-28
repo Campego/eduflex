@@ -1,22 +1,23 @@
-import { SignedIn, SignedOut } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { getCourses, getUserProgress } from "@/db/queries";
 
-export default function DashboardPage() {
+import { List } from "./list";
+
+const CoursesPage = async () => {
+  const coursesData = getCourses();
+  const userProgressData = getUserProgress();
+
+  const [courses, userProgress] = await Promise.all([
+    coursesData,
+    userProgressData,
+  ]);
+
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold">¡Bienvenido Cursos!</h1>
-        <SignedIn>
-          <p className="mt-4">¡Hola Mundo!</p>
-        </SignedIn>
-        <SignedOut>
-          <p className="mt-4">Por favor, inicia sesión para acceder a los cursos</p>
-          <Link href="/sign-in">
-            <Button className="mt-4">Iniciar sesión</Button>
-          </Link>
-        </SignedOut>
-      </div>
+    <div className="mx-auto h-full max-w-[912px] px-3">
+      <h1 className="text-2xl font-bold text-neutral-700">Language Courses</h1>
+
+      <List courses={courses} activeCourseId={userProgress?.activeCourseId} />
     </div>
   );
-}
+};
+
+export default CoursesPage;

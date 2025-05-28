@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,12 +13,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useExitModal } from "@/store/use-exit-modal";
+import { usePracticeModal } from "@/store/use-practice-modal";
 
-export const ExitModal = () => {
-  const router = useRouter();
+export const PracticeModal = () => {
   const [isClient, setIsClient] = useState(false);
-  const { isOpen, close } = useExitModal();
+  const { isOpen, close } = usePracticeModal();
 
   useEffect(() => setIsClient(true), []);
 
@@ -30,20 +28,16 @@ export const ExitModal = () => {
       <DialogContent className="max-w-md">
         <DialogHeader>
           <div className="mb-5 flex w-full items-center justify-center">
-            <Image
-              src="/mascot.svg"
-              alt="Mascot Sad"
-              height={80}
-              width={80}
-            />
+            <Image src="/heart.svg" alt="Heart" height={100} width={100} />
           </div>
 
           <DialogTitle className="text-center text-2xl font-bold">
-            No te vayas!
+            Practice lesson
           </DialogTitle>
 
           <DialogDescription className="text-center text-base">
-            Estas a punto de salir. 
+            Use practice lessons to regain hearts and points. You cannot loose
+            hearts or points in practice lessons.
           </DialogDescription>
         </DialogHeader>
 
@@ -55,19 +49,7 @@ export const ExitModal = () => {
               size="lg"
               onClick={close}
             >
-              Continuar
-            </Button>
-
-            <Button
-              variant="dangerOutline"
-              className="w-full"
-              size="lg"
-              onClick={() => {
-                close();
-                router.push("/curso");
-              }}
-            >
-              Salir
+              I understand
             </Button>
           </div>
         </DialogFooter>
