@@ -1,12 +1,13 @@
 "use client";
 
-// Add this empty line after the directive
+
 import { useState, useTransition } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Confetti from "react-confetti";
 import { useAudio, useWindowSize, useMount } from "react-use";
 import { toast } from "sonner";
+
 
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { reduceHearts } from "@/actions/user-progress";
@@ -18,6 +19,7 @@ import {
 } from "@/db/schema";
 import { useHeartsModal } from "@/store/use-hearts-modal";
 import { usePracticeModal } from "@/store/use-practice-modal";
+
 
 import { Challenge } from "./challenge";
 import { Footer } from "./footer";
