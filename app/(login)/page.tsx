@@ -4,15 +4,11 @@ import {
   SignInButton,
   SignUpButton,
   SignedIn,
-  SignedOut,
+  SignedOut
 } from "@clerk/nextjs";
-
 import { Loader } from "lucide-react";
-
 import Image from "next/image";
-
 import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 
 export default function MarketingPage() {
@@ -24,7 +20,7 @@ export default function MarketingPage() {
 
       <div className="flex flex-col items-center gap-y-8">
         <h1 className="max-w-[480px] text-center text-xl font-bold text-neutral-600 lg:text-3xl">
-          'Aprende donde quieras, Cuando quieras' 
+          &apos;Aprende donde quieras, Cuando quieras&apos;
         </h1>
 
         <div className="flex w-full max-w-[330px] flex-col items-center gap-y-3">
@@ -50,7 +46,7 @@ export default function MarketingPage() {
                 afterSignUpUrl="/dashboard"
               >
                 <Button size="lg" variant="primaryOutline" className="w-full">
-                  Tienes una cuenta?, ingresa
+                  ¿Tienes una cuenta? Ingresa
                 </Button>
               </SignInButton>
             </SignedOut>

@@ -1,15 +1,10 @@
 "use client";
 
 import { Check, Star } from "lucide-react";
-
 import Link from "next/link";
-
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
-
 import { Button } from "@/components/ui/button";
-
 import { cn } from "@/lib/utils";
-
 import "react-circular-progressbar/dist/styles.css";
 
 type LessonButtonProps = {
@@ -64,7 +59,6 @@ export const LessonButton = ({
       >
         {current ? (
           <div className="relative h-[102px] w-[102px]">
-            
             <CircularProgressbarWithChildren
               value={Number.isNaN(percentage) ? 0 : percentage}
               styles={{
