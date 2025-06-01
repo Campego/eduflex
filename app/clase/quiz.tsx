@@ -24,7 +24,6 @@ import { Header } from "./header";
 import { QuestionBubble } from "./question-bubble";
 import { ResultCard } from "./result-card";
 
-
 type QuizProps = {
   initialPercentage: number;
   initialHearts: number;
