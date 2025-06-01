@@ -168,6 +168,7 @@ export const getLesson = cache(async (id?: number) => {
           },
         },
       },
+      reading: true, // Incluir la lectura
     },
   });
 

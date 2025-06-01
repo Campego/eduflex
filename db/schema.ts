@@ -9,8 +9,10 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
-import { MAX_HEARTS } from "@/constants";
+// Enum de tipos de desafío
+export const challengesEnum = pgEnum("type", ["SELECT", "ASSIST", "WRITE"]);
 
+// Tabla Courses
 export const courses = pgTable("courses", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
@@ -22,14 +24,13 @@ export const coursesRelations = relations(courses, ({ many }) => ({
   units: many(units),
 }));
 
+// Tabla Units
 export const units = pgTable("units", {
   id: serial("id").primaryKey(),
-  title: text("title").notNull(), // Unit 1
-  description: text("description").notNull(), // Learn the basics of spanish
+  title: text("title").notNull(),
+  description: text("description").notNull(),
   courseId: integer("course_id")
-    .references(() => courses.id, {
-      onDelete: "cascade",
-    })
+    .references(() => courses.id, { onDelete: "cascade" })
     .notNull(),
   order: integer("order").notNull(),
 });
@@ -42,13 +43,12 @@ export const unitsRelations = relations(units, ({ many, one }) => ({
   lessons: many(lessons),
 }));
 
+// Tabla Lessons
 export const lessons = pgTable("lessons", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   unitId: integer("unit_id")
-    .references(() => units.id, {
-      onDelete: "cascade",
-    })
+    .references(() => units.id, { onDelete: "cascade" })
     .notNull(),
   order: integer("order").notNull(),
 });
@@ -59,16 +59,45 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
     references: [units.id],
   }),
   challenges: many(challenges),
+  reading: one(readings),
 }));
 
-export const challengesEnum = pgEnum("type", ["SELECT", "ASSIST"]);
+// Tabla qreating answers (nueva)
+export const writtenAnswers = pgTable("written_answers", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull(),
+  challengeId: integer("challenge_id")
+    .references(() => challenges.id, { onDelete: "cascade" })
+    .notNull(),
+  content: text("content").notNull(),
+  isCorrect: boolean("is_correct"), // Esto puede llenarse luego con IA
+  createdAt: timestamp("created_at").defaultNow(),
+  score: integer("score"),
+  feedback: text("feedback"),
+});
 
+// Tabla Readings (nueva)
+export const readings = pgTable("readings", {
+  id: serial("id").primaryKey(),
+  lessonId: integer("lesson_id")
+    .references(() => lessons.id, { onDelete: "cascade" })
+    .notNull(),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+});
+
+export const readingsRelations = relations(readings, ({ one }) => ({
+  lesson: one(lessons, {
+    fields: [readings.lessonId],
+    references: [lessons.id],
+  }),
+}));
+
+// Tabla Challenges
 export const challenges = pgTable("challenges", {
   id: serial("id").primaryKey(),
   lessonId: integer("lesson_id")
-    .references(() => lessons.id, {
-      onDelete: "cascade",
-    })
+    .references(() => lessons.id, { onDelete: "cascade" })
     .notNull(),
   type: challengesEnum("type").notNull(),
   question: text("question").notNull(),
@@ -84,12 +113,11 @@ export const challengesRelations = relations(challenges, ({ one, many }) => ({
   challengeProgress: many(challengeProgress),
 }));
 
+// Tabla ChallengeOptions
 export const challengeOptions = pgTable("challenge_options", {
   id: serial("id").primaryKey(),
   challengeId: integer("challenge_id")
-    .references(() => challenges.id, {
-      onDelete: "cascade",
-    })
+    .references(() => challenges.id, { onDelete: "cascade" })
     .notNull(),
   text: text("text").notNull(),
   correct: boolean("correct").notNull(),
@@ -107,15 +135,15 @@ export const challengeOptionsRelations = relations(
   })
 );
 
+// Tabla ChallengeProgress
 export const challengeProgress = pgTable("challenge_progress", {
   id: serial("id").primaryKey(),
   userId: text("user_id").notNull(),
   challengeId: integer("challenge_id")
-    .references(() => challenges.id, {
-      onDelete: "cascade",
-    })
+    .references(() => challenges.id, { onDelete: "cascade" })
     .notNull(),
   completed: boolean("completed").notNull().default(false),
+  writtenAnswer: text("written_answer"), // Para desafíos tipo WRITE
 });
 
 export const challengeProgressRelations = relations(
@@ -127,6 +155,9 @@ export const challengeProgressRelations = relations(
     }),
   })
 );
+
+// Tabla UserProgress
+import { MAX_HEARTS } from "@/constants";
 
 export const userProgress = pgTable("user_progress", {
   userId: text("user_id").primaryKey(),
@@ -146,6 +177,7 @@ export const userProgressRelations = relations(userProgress, ({ one }) => ({
   }),
 }));
 
+// Tabla UserSubscription
 export const userSubscription = pgTable("user_subscription", {
   id: serial("id").primaryKey(),
   userId: text("user_id").notNull().unique(),
