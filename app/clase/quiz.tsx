@@ -1,27 +1,42 @@
 "use client";
 
 import { useState, useTransition } from "react";
+
 import Image from "next/image";
+
 import { useRouter } from "next/navigation";
+
 import Confetti from "react-confetti";
+
 import { useAudio, useWindowSize, useMount } from "react-use";
+
 import { toast } from "sonner";
 
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
+
 import { reduceHearts } from "@/actions/user-progress";
+
 import { MAX_HEARTS } from "@/constants";
+
 import {
   challengeOptions,
   challenges,
   userSubscription,
 } from "@/db/schema";
+
 import { useHeartsModal } from "@/store/use-hearts-modal";
+
 import { usePracticeModal } from "@/store/use-practice-modal";
 
+
 import { Challenge } from "./challenge";
+
 import { Footer } from "./footer";
+
 import { Header } from "./header";
+
 import { QuestionBubble } from "./question-bubble";
+
 import { ResultCard } from "./result-card";
 
 type QuizProps = {

@@ -1,11 +1,13 @@
 import { ClerkProvider } from "@clerk/nextjs";
+
 import type { Metadata, Viewport } from "next";
+
 import { Nunito } from "next/font/google";
 
 import { ExitModal } from "@/components/modals/exit-modal";
 
-
 import { Toaster } from "@/components/ui/sonner";
+
 import { siteConfig } from "@/config";
 
 import "./globals.css";

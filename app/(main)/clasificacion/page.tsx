@@ -1,6 +1,9 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
+
 import { Button } from "@/components/ui/button";
+
 import Link from "next/link";
+
 
 export default function DashboardPage() {
   return (

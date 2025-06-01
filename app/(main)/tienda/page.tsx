@@ -1,7 +1,8 @@
-import Image from "next/image";
+
 import { redirect } from "next/navigation";
 
 import { FeedWrapper } from "@/components/feed-wrapper";
+
 import { getUserProgress, getUserSubscription } from "@/db/queries";
 
 import { ShopItemsList } from "./ShopItemsList";

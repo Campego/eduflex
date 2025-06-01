@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { ShopItem } from "./ShopItem";
 
 interface ShopItemsListProps {
@@ -9,7 +10,7 @@ interface ShopItemsListProps {
   hasActiveSubscription: boolean;
 }
 
-export function ShopItemsList({ hearts, points, hasActiveSubscription }: ShopItemsListProps) {
+export function ShopItemsList({hasActiveSubscription }: ShopItemsListProps) {
 
   const [isSubscribed, setIsSubscribed] = useState(hasActiveSubscription);
 
