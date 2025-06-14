@@ -11,6 +11,7 @@ import {
   units,
   userProgress,
   userSubscription,
+  medals,
 } from "./schema";
 
 const DAY_IN_MS = 86_400_000;
@@ -148,11 +149,17 @@ export const getCourseProgress = cache(async () => {
 
 export const getLesson = cache(async (id?: number) => {
   const { userId } = auth();
-
   if (!userId) return null;
 
-  const courseProgress = await getCourseProgress();
-  const lessonId = id || courseProgress?.activeLessonId;
+  
+  let lessonId = id;
+  if (!lessonId) {
+    const courseProgress = await getCourseProgress();
+    lessonId = courseProgress?.activeLessonId;
+  }
+
+  console.log("📘 [getLesson] userId:", userId);
+  console.log("📘 [getLesson] lessonId:", lessonId);
 
   if (!lessonId) return null;
 
@@ -167,8 +174,15 @@ export const getLesson = cache(async (id?: number) => {
             where: eq(challengeProgress.userId, userId),
           },
         },
+        columns: {
+          id: true,
+          lessonId: true,
+          type: true,
+          question: true,
+          order: true,
+          topicId: true,
+        },
       },
-      reading: true, // Incluir la lectura
     },
   });
 
@@ -244,4 +258,31 @@ export const getTopTenUsers = cache(async () => {
   });
 
   return data;
+});
+
+export const getUserMedals = cache(async () => {
+  const { userId } = auth();
+
+  if (!userId) return [];
+
+  const medalsList = await db.query.medals.findMany({
+    where: eq(medals.userId, userId),
+    with: {
+      course: true,
+    },
+    orderBy: (medals, { desc }) => [desc(medals.dateAwarded)],
+  });
+
+  const transformedMedals = medalsList.map((medal) => ({
+    id: medal.id,
+    userId: medal.userId,
+    courseId: medal.courseId,
+    medalType: medal.medalType,
+    dateAwarded: medal.dateAwarded,
+    course: {
+      title: medal.course.title,
+    },
+  }));
+
+  return transformedMedals;
 });

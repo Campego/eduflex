@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { CheckCircle, XCircle } from "lucide-react";
 import { useKey, useMedia } from "react-use";
 
@@ -17,8 +18,19 @@ export const Footer = ({
   disabled,
   lessonId,
 }: FooterProps) => {
-  useKey("Enter", onCheck, {}, [onCheck]);
   const isMobile = useMedia("(max-width: 1024px)");
+
+  useEffect(() => {
+    if (status !== "completed") {
+      const handler = (e: KeyboardEvent) => {
+        if (e.key === "Enter") {
+          onCheck();
+        }
+      };
+      window.addEventListener("keydown", handler);
+      return () => window.removeEventListener("keydown", handler);
+    }
+  }, [onCheck, status]);
 
   return (
     <footer
@@ -32,14 +44,14 @@ export const Footer = ({
         {status === "correct" && (
           <div className="flex items-center text-base font-bold text-green-500 lg:text-2xl">
             <CheckCircle className="mr-4 h-6 w-6 lg:h-10 lg:w-10" />
-            Correcto
+            Respuesta Correcta
           </div>
         )}
 
         {status === "wrong" && (
           <div className="flex items-center text-base font-bold text-rose-500 lg:text-2xl">
             <XCircle className="mr-4 h-6 w-6 lg:h-10 lg:w-10" />
-            Intenta de nuevo.
+            Respuesta Incorrecta
           </div>
         )}
 
@@ -49,7 +61,7 @@ export const Footer = ({
             size={isMobile ? "sm" : "lg"}
             onClick={() => (window.location.href = `/lesson/${lessonId}`)}
           >
-            Intentar de nuevo
+            Retomar Prueba
           </Button>
         )}
 
@@ -61,9 +73,9 @@ export const Footer = ({
           size={isMobile ? "sm" : "lg"}
           variant={status === "wrong" ? "danger" : "secondary"}
         >
-          {status === "none" && "Check"}
-          {status === "correct" && "Next"}
-          {status === "wrong" && "Retry"}
+          {status === "none" && "Enviar"}
+          {status === "correct" && "Siguiente"}
+          {status === "wrong" && "Reintentar"}
           {status === "completed" && "Continue"}
         </Button>
       </div>

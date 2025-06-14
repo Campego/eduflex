@@ -6,12 +6,12 @@ import { Quiz } from "../quiz";
 
 type LessonIdPageProps = {
   params: {
-    claseId: number;
+    lessonId: number;
   };
 };
 
 const LessonIdPage = async ({ params }: LessonIdPageProps) => {
-  const lessonData = getLesson(params.claseId);
+  const lessonData = getLesson(params.lessonId);
   const userProgressData = getUserProgress();
   const userSubscriptionData = getUserSubscription();
 
@@ -35,7 +35,6 @@ const LessonIdPage = async ({ params }: LessonIdPageProps) => {
       initialHearts={userProgress.hearts}
       initialPercentage={initialPercentage}
       userSubscription={userSubscription}
-      reading={lesson.reading }
     />
   );
 };

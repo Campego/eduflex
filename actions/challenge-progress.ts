@@ -59,11 +59,10 @@ export const upsertChallengeProgress = async (challengeId: number) => {
       })
       .where(eq(userProgress.userId, userId));
 
-    revalidatePath("/learn");
-    revalidatePath("/lesson");
-    revalidatePath("/quests");
-    revalidatePath("/leaderboard");
-    revalidatePath(`/lesson/${lessonId}`);
+    revalidatePath("/curso");
+    revalidatePath("/clase");
+    revalidatePath("/clasificacion");
+    revalidatePath(`/clase/${lessonId}`);
     return;
   }
 
@@ -80,9 +79,8 @@ export const upsertChallengeProgress = async (challengeId: number) => {
     })
     .where(eq(userProgress.userId, userId));
 
-  revalidatePath("/learn");
-  revalidatePath("/lesson");
-  revalidatePath("/quests");
-  revalidatePath("/leaderboard");
-  revalidatePath(`/lesson/${lessonId}`);
+   revalidatePath("/curso");
+    revalidatePath("/clase");
+    revalidatePath("/clasificacion");
+    revalidatePath(`/clase/${lessonId}`);
 };

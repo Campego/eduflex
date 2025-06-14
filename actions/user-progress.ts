@@ -39,9 +39,9 @@ export const upsertUserProgress = async (courseId: number) => {
       })
       .where(eq(userProgress.userId, userId));
 
-    revalidatePath("/courses");
-    revalidatePath("/learn");
-    redirect("/learn");
+    revalidatePath("/cursos");
+    revalidatePath("/curso");
+    redirect("/curso");
   }
 
   await db.insert(userProgress).values({
@@ -51,9 +51,9 @@ export const upsertUserProgress = async (courseId: number) => {
     userImageSrc: user.imageUrl || "/mascot.svg",
   });
 
-  revalidatePath("/courses");
-  revalidatePath("/learn");
-  redirect("/learn");
+  revalidatePath("/cursos");
+  revalidatePath("/curso");
+  redirect("/curso");
 };
 
 export const reduceHearts = async (challengeId: number) => {
@@ -96,11 +96,10 @@ export const reduceHearts = async (challengeId: number) => {
     })
     .where(eq(userProgress.userId, userId));
 
-  revalidatePath("/shop");
-  revalidatePath("/learn");
-  revalidatePath("/quests");
-  revalidatePath("/leaderboard");
-  revalidatePath(`/lesson/${lessonId}`);
+  revalidatePath("/tienda");
+  revalidatePath("/curso");
+  revalidatePath("/clasificacion");
+  revalidatePath(`/curso/${lessonId}`);
 };
 
 export const refillHearts = async () => {
@@ -120,8 +119,7 @@ export const refillHearts = async () => {
     })
     .where(eq(userProgress.userId, currentUserProgress.userId));
 
-  revalidatePath("/shop");
-  revalidatePath("/learn");
-  revalidatePath("/quests");
-  revalidatePath("/leaderboard");
+    revalidatePath("/tienda");
+    revalidatePath("/curso");
+    revalidatePath("/clasificacion");
 };
