@@ -6,7 +6,7 @@ import { getUserSubscription } from "@/db/queries";
 import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
 
-const returnUrl = absoluteUrl("/shop");
+const returnUrl = absoluteUrl("/dashboard");
 
 export const createStripeUrl = async () => {
   const { userId } = auth();
@@ -16,7 +16,6 @@ export const createStripeUrl = async () => {
 
   const userSubscription = await getUserSubscription();
 
-  // redirect user to customer portal who already have a subscription
   if (userSubscription && userSubscription.stripeCustomerId) {
     const stripeSession = await stripe.billingPortal.sessions.create({
       customer: userSubscription.stripeCustomerId,
@@ -26,7 +25,6 @@ export const createStripeUrl = async () => {
     return { data: stripeSession.url };
   }
 
-  // checkout
   const stripeSession = await stripe.checkout.sessions.create({
     mode: "subscription",
     payment_method_types: ["card"],
@@ -37,8 +35,8 @@ export const createStripeUrl = async () => {
         price_data: {
           currency: "USD",
           product_data: {
-            name: "Lingo Pro",
-            description: "Unlimited hearts.",
+            name: "Eduflex Pro",
+            description: "Corazones Ilimitados.",
           },
           unit_amount: 2000, // $20.00 USD
           recurring: {
@@ -54,5 +52,5 @@ export const createStripeUrl = async () => {
     cancel_url: returnUrl,
   });
 
-  return { data: stripeSession.url };
+  return { data: stripeSession.url };
 };

@@ -151,7 +151,7 @@ export const getLesson = cache(async (id?: number) => {
   const { userId } = auth();
   if (!userId) return null;
 
-  
+  // ⚠️ SOLO usar getCourseProgress si no se pasó un ID
   let lessonId = id;
   if (!lessonId) {
     const courseProgress = await getCourseProgress();
@@ -160,7 +160,7 @@ export const getLesson = cache(async (id?: number) => {
 
   console.log("📘 [getLesson] userId:", userId);
   console.log("📘 [getLesson] lessonId:", lessonId);
-
+  
   if (!lessonId) return null;
 
   const data = await db.query.lessons.findFirst({
@@ -261,18 +261,20 @@ export const getTopTenUsers = cache(async () => {
 });
 
 export const getUserMedals = cache(async () => {
-  const { userId } = auth();
+  const { userId } = auth(); // Obtener el ID del usuario autenticado
 
-  if (!userId) return [];
+  if (!userId) return []; // Si no hay usuario, retornar un array vacío
 
+  // Obtener las medallas
   const medalsList = await db.query.medals.findMany({
-    where: eq(medals.userId, userId),
+    where: eq(medals.userId, userId), // Filtrar por el ID del usuario
     with: {
-      course: true,
+      course: true, // Obtener el curso al que corresponde la medalla
     },
-    orderBy: (medals, { desc }) => [desc(medals.dateAwarded)],
+    orderBy: (medals, { desc }) => [desc(medals.dateAwarded)], // Ordenar por la fecha de otorgamiento
   });
 
+  // Mapear los resultados a un formato que se ajuste al tipo de Medal[]
   const transformedMedals = medalsList.map((medal) => ({
     id: medal.id,
     userId: medal.userId,
@@ -280,9 +282,21 @@ export const getUserMedals = cache(async () => {
     medalType: medal.medalType,
     dateAwarded: medal.dateAwarded,
     course: {
-      title: medal.course.title,
+      title: medal.course.title, // Accedemos al título del curso relacionado
     },
   }));
 
-  return transformedMedals;
+  return transformedMedals; // Devolvemos las medallas transformadas
+});
+
+export const getMedalById = cache(async (medalId: string) => {
+  const medal = await db.query.medals.findFirst({
+    where: eq(medals.medalId, medalId),
+    with: {
+      course: true,
+      user: true,
+    },
+  });
+
+  return medal;
 });

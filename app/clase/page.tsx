@@ -27,7 +27,7 @@ const LessonPage = async () => {
   ]);
 
   if (!lesson || !userProgress) {
-    return redirect("/medallas");
+    return redirect("/medalla");
   }
   const initialPercentage =
     (lesson.challenges.filter((challenge) => challenge.completed).length /

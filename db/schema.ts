@@ -8,24 +8,26 @@ import {
   text,
   timestamp,
   unique,
+  uuid
 } from "drizzle-orm/pg-core";
 
 import { MAX_HEARTS } from "@/constants";
 
-/* CURSOS, UNIDADES, LECCIONES */
-   
-
+/* ────────────────────────
+   CURSOS, UNIDADES, LECCIONES
+   ──────────────────────── */
 
 export const courses = pgTable("courses", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   imageSrc: text("image_src").notNull(),
+  medalImageName: text("medal_image_name"), 
 });
 
 export const units = pgTable("units", {
   id: serial("id").primaryKey(),
-  title: text("title").notNull(), 
-  description: text("description").notNull(), 
+  title: text("title").notNull(),
+  description: text("description").notNull(),
   courseId: integer("course_id")
     .references(() => courses.id, { onDelete: "cascade" })
     .notNull(),
@@ -41,22 +43,24 @@ export const lessons = pgTable("lessons", {
   order: integer("order").notNull(),
 });
 
-
-  /*  TOPICS */
-
+/* ────────────────────────
+   TOPICS  (nuevo)
+   ──────────────────────── */
 
 export const topics = pgTable("topics", {
   id: serial("id").primaryKey(),
   lessonId: integer("lesson_id")
     .references(() => lessons.id, { onDelete: "cascade" })
     .notNull(),
-  slug: text("slug").notNull(), // ej: sprint_goal
+  slug: text("slug").notNull(),
   title: text("title").notNull(),
   theoryMd: text("theory_md").notNull(),
   order: integer("order").notNull(),
 });
 
-  /*  ENUM + CHALLENGES */
+/* ────────────────────────
+   ENUM + CHALLENGES
+   ──────────────────────── */
 
 export const challengesEnum = pgEnum("type", ["SELECT", "ASSIST", "WRITE"]);
 
@@ -65,11 +69,9 @@ export const challenges = pgTable("challenges", {
   lessonId: integer("lesson_id")
     .references(() => lessons.id, { onDelete: "cascade" })
     .notNull(),
-
   topicId: integer("topic_id").references(() => topics.id, {
     onDelete: "cascade",
   }),
-
   type: challengesEnum("type").notNull(),
   question: text("question").notNull(),
   order: integer("order").notNull(),
@@ -95,9 +97,9 @@ export const challengeProgress = pgTable("challenge_progress", {
   completed: boolean("completed").notNull().default(false),
 });
 
-
-  /* TRACKING DE DESEMPEÑO POR TEMA  */ 
-
+/* ────────────────────────
+   TRACKING DE DESEMPEÑO POR TEMA  (nuevo)
+   ──────────────────────── */
 
 export const userTopicScores = pgTable(
   "user_topic_scores",
@@ -111,12 +113,9 @@ export const userTopicScores = pgTable(
     total: integer("total").notNull().default(0),
   },
   (table) => ({
-
     userTopicUnique: unique().on(table.userId, table.topicId),
   })
 );
-
-  /*  PREGUNTAS GENERADAS POR IA */  
 
 export const generatedQuestions = pgTable("generated_questions", {
   id: serial("id").primaryKey(),
@@ -129,10 +128,6 @@ export const generatedQuestions = pgTable("generated_questions", {
   createdBy: text("created_by"),
 });
 
-
-  /*  INTENTOS DEL USUARIO EN PREGUNTAS IA */ 
-
-
 export const userAttempts = pgTable("user_attempts", {
   id: serial("id").primaryKey(),
   userId: text("user_id").notNull(),
@@ -143,9 +138,6 @@ export const userAttempts = pgTable("user_attempts", {
   answerJson: text("answer_json").notNull(),
   timestamp: timestamp("timestamp").notNull().defaultNow(),
 });
-
-  /*  PROGRESO GENERAL DEL USUARIO */
-
 
 export const userProgress = pgTable("user_progress", {
   userId: text("user_id").primaryKey(),
@@ -158,23 +150,23 @@ export const userProgress = pgTable("user_progress", {
   points: integer("points").notNull().default(0),
 });
 
-
-  /*  MEDALLAS  */
-
+/* ────────────────────────
+   MEDALLAS (nuevo)
+   ──────────────────────── */
 
 export const medals = pgTable("medals", {
   id: serial("id").primaryKey(),
+  uuid: uuid("uuid").defaultRandom().notNull().unique(),
   userId: text("user_id").notNull(),
-  courseId: integer("course_id").references(() => courses.id, { onDelete: "cascade" }).notNull(),
-  medalType: text("medal_type").notNull(), // Ejemplo: "Curso Básico SCRUM"
+  courseId: integer("course_id")
+    .references(() => courses.id, { onDelete: "cascade" })
+    .notNull(),
+  medalType: text("medal_type").notNull(),
   dateAwarded: timestamp("date_awarded").defaultNow().notNull(),
+  // ID único para verificación externa
+  medalId: uuid("medal_id").notNull().defaultRandom().unique(),
+  
 });
-
-
-
-  /*  SUSCRIPCIONES  */
-
-
 export const userSubscription = pgTable("user_subscription", {
   id: serial("id").primaryKey(),
   userId: text("user_id").notNull().unique(),
@@ -184,9 +176,9 @@ export const userSubscription = pgTable("user_subscription", {
   stripeCurrentPeriodEnd: timestamp("stripe_current_period_end").notNull(),
 });
 
-
-  /*  RELACIONES */
-
+/* ────────────────────────
+   RELACIONES
+   ──────────────────────── */
 
 export const coursesRelations = relations(courses, ({ many }) => ({
   userProgress: many(userProgress),
@@ -201,7 +193,6 @@ export const unitsRelations = relations(units, ({ many, one }) => ({
   lessons: many(lessons),
 }));
 
-// Relación para las medallas
 export const userMedalsRelations = relations(medals, ({ one }) => ({
   user: one(userProgress, {
     fields: [medals.userId],
@@ -219,7 +210,7 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
     references: [units.id],
   }),
   challenges: many(challenges),
-  topics: many(topics), 
+  topics: many(topics),
 }));
 
 export const topicsRelations = relations(topics, ({ one, many }) => ({
