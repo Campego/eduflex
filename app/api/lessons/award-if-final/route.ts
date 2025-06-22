@@ -1,10 +1,11 @@
+import { randomUUID } from "crypto";
+
 import { auth } from "@clerk/nextjs";
-import { NextResponse, NextRequest } from "next/server";
 import { eq } from "drizzle-orm";
+import { NextResponse, NextRequest } from "next/server";
 
 import db from "@/db/drizzle";
 import { lessons, units, courses, medals } from "@/db/schema";
-import { randomUUID } from "crypto";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -13,7 +14,8 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { lessonId } = await req.json();
+    const body = (await req.json()) as { lessonId: number };
+    const lessonId = body.lessonId;
     if (!lessonId) {
       return NextResponse.json({ error: "Missing lessonId" }, { status: 400 });
     }
@@ -39,7 +41,6 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ error: "Course not found" }, { status: 404 });
     }
 
-    // ✅ Nueva condición: detectamos si esta es la última lección del curso
     const allUnits = await db.query.units.findMany({
       where: eq(units.courseId, course.id),
       with: {
@@ -48,33 +49,34 @@ export const POST = async (req: NextRequest) => {
     });
 
     const allLessons = allUnits.flatMap((u) => u.lessons);
-    // Ordenar correctamente por unidad y lección
     const sortedLessons = allLessons.sort((a, b) => {
       const unitA = allUnits.find((u) => u.id === a.unitId)?.order ?? 0;
       const unitB = allUnits.find((u) => u.id === b.unitId)?.order ?? 0;
 
-      if (unitA !== unitB) return unitA - unitB;
-      return a.order - b.order;
+      return unitA !== unitB ? unitA - unitB : a.order - b.order;
     });
 
-    // Seleccionamos el penúltimo
     const lastLesson = sortedLessons[sortedLessons.length - 1];
 
     if (lastLesson?.id !== lesson.id) {
-      return NextResponse.json({ awarded: false }); // no es la última lección
+      return NextResponse.json({ awarded: false });
     }
+
     const existing = await db.query.medals.findFirst({
       where: (m) => eq(m.userId, userId) && eq(m.courseId, course.id),
     });
 
-    if (existing) return NextResponse.json({ awarded: false }); // ya tiene la medalla
+    if (existing) {
+      return NextResponse.json({ awarded: false });
+    }
 
     await db.insert(medals).values({
       userId,
       courseId: course.id,
-      medalType: `${course.title}`,
-      medalId: randomUUID(), // <== corregido aquí también
+      medalType: course.title,
+      medalId: randomUUID(),
     });
+
     return NextResponse.json({ awarded: true });
   } catch (err) {
     console.error("[AWARD_IF_FINAL_ERROR]", err);

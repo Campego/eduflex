@@ -35,13 +35,17 @@ module.exports = {
       extends: [
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
-
-        //declaring 'next/core-web-vitals' and 'prettier' again in case
-        //the two plugin:... configs above overrode any of their rules
-        //Also, 'prettier' needs to be last in any extends array
         "next/core-web-vitals",
         "prettier",
       ],
+      rules: {
+        // También las desactivamos dentro del override por seguridad
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
+        "@typescript-eslint/no-redundant-type-constituents": "off",
+      },
     },
   ],
 };

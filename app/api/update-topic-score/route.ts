@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
-import db from "@/db/drizzle";
+import { auth } from "@clerk/nextjs/server";
 import { sql } from "drizzle-orm";
+import { NextResponse } from "next/server";
 
+import db from "@/db/drizzle";
 import { userTopicScores } from "@/db/schema";
-import { auth } from "@clerk/nextjs/server"; // ✅ Importa auth para rutas server
 
 type Body = { topicId: number; correct: boolean };
 
@@ -11,8 +11,7 @@ export async function POST(req: Request) {
   try {
     const { topicId, correct } = (await req.json()) as Body;
 
-    const { userId } = auth(); // ✅ Obtiene el userId real desde Clerk
-
+    const { userId } = auth();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

@@ -1,7 +1,5 @@
 import { currentUser } from "@clerk/nextjs/server";
-
 import { eq } from "drizzle-orm";
-
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";

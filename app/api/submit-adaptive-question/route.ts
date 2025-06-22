@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+
 import db from "@/db/drizzle";
 import { userAttempts } from "@/db/schema";
 

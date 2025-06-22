@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
+
 import { useRouter } from "next/navigation";
 import Confetti from "react-confetti";
 import { useAudio, useWindowSize, useMount } from "react-use";
@@ -14,14 +15,14 @@ import {
   challenges as challengesSchema,
   userSubscription,
 } from "@/db/schema";
-import { useHeartsModal } from "@/store/use-hearts-modal";
-import { usePracticeModal } from "@/store/use-practice-modal";
-
 import {
   generateAdaptiveChallenge,
   updateTopicScore,
   submitAdaptiveAnswer,
 } from "@/lib/adaptive";
+import { useHeartsModal } from "@/store/use-hearts-modal";
+import { usePracticeModal } from "@/store/use-practice-modal";
+
 
 import { Challenge } from "./challenge";
 import { Footer } from "./footer";
@@ -53,10 +54,8 @@ export const Quiz = ({
   initialLessonChallenges,
   userSubscription,
 }: QuizProps) => {
-  const [correctAudio, , correctControls] = useAudio({ src: "/correct.wav" });
-  const [incorrectAudio, , incorrectControls] = useAudio({
-    src: "/incorrect.wav",
-  });
+
+
   const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true });
   const { width, height } = useWindowSize();
   const router = useRouter();
@@ -147,7 +146,6 @@ export const Quiz = ({
 
   const handleCorrect = async (topicId: number) => {
     await updateTopicScore({ topicId, correct: true });
-    void correctControls.play();
     setStatus("correct");
     setPercentage((prev) =>
       isAdaptive ? prev : prev + 100 / challenges.length
@@ -173,7 +171,6 @@ export const Quiz = ({
 
   const handleWrong = async (topicId: number) => {
     await updateTopicScore({ topicId, correct: false });
-    void incorrectControls.play();
     setStatus("wrong");
     setHearts((prev) => Math.max(prev - 1, 0));
   };

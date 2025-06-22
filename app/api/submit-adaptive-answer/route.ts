@@ -1,11 +1,18 @@
-import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
-import { userAttempts } from "@/db/schema";
+import { NextResponse } from "next/server";
+
 import db from "@/db/drizzle";
+import { userAttempts } from "@/db/schema";
 
 export async function POST(req: Request) {
   try {
-    const { questionId, isCorrect, answerJson } = await req.json();
+    const body = (await req.json()) as {
+      questionId: number;
+      isCorrect: boolean;
+      answerJson: string;
+    };
+
+    const { questionId, isCorrect, answerJson } = body;
 
     if (!questionId || typeof isCorrect !== "boolean" || !answerJson) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
