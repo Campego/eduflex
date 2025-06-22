@@ -1,9 +1,13 @@
 import { currentUser } from "@clerk/nextjs/server";
+
+import { eq } from "drizzle-orm";
+import Image from "next/image";
+import Link from "next/link";
+
 import db from "@/db/drizzle";
 import { medals } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import Link from "next/link";
-import Image from "next/image";
+
+
 
 export default async function MedalsPage() {
   const user = await currentUser();

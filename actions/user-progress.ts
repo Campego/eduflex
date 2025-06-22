@@ -22,10 +22,10 @@ export const upsertUserProgress = async (courseId: number) => {
 
   const course = await getCourseById(courseId);
 
-  if (!course) throw new Error("Course not found.");
+  if (!course) throw new Error("curso no encontrado.");
 
   if (!course.units.length || !course.units[0].lessons.length)
-    throw new Error("Course is empty.");
+    throw new Error("Course esta vacio.");
 
   const existingUserProgress = await getUserProgress();
 

@@ -13,9 +13,9 @@ import {
 
 import { MAX_HEARTS } from "@/constants";
 
-/* ────────────────────────
-   CURSOS, UNIDADES, LECCIONES
-   ──────────────────────── */
+
+/*    CURSOS, UNIDADES, LECCIONES */
+
 
 export const courses = pgTable("courses", {
   id: serial("id").primaryKey(),
@@ -43,9 +43,9 @@ export const lessons = pgTable("lessons", {
   order: integer("order").notNull(),
 });
 
-/* ────────────────────────
-   TOPICS  (nuevo)
-   ──────────────────────── */
+
+   /* TOPICS  (nuevo) */
+
 
 export const topics = pgTable("topics", {
   id: serial("id").primaryKey(),
@@ -58,9 +58,9 @@ export const topics = pgTable("topics", {
   order: integer("order").notNull(),
 });
 
-/* ────────────────────────
-   ENUM + CHALLENGES
-   ──────────────────────── */
+
+   /* ENUM + CHALLENGES */
+
 
 export const challengesEnum = pgEnum("type", ["SELECT", "ASSIST", "WRITE"]);
 
@@ -97,9 +97,9 @@ export const challengeProgress = pgTable("challenge_progress", {
   completed: boolean("completed").notNull().default(false),
 });
 
-/* ────────────────────────
-   TRACKING DE DESEMPEÑO POR TEMA  (nuevo)
-   ──────────────────────── */
+
+   /* TRACKING DE DESEMPEÑO POR TEMA   */
+
 
 export const userTopicScores = pgTable(
   "user_topic_scores",
@@ -150,9 +150,9 @@ export const userProgress = pgTable("user_progress", {
   points: integer("points").notNull().default(0),
 });
 
-/* ────────────────────────
-   MEDALLAS (nuevo)
-   ──────────────────────── */
+
+   /* MEDALLAS  */
+
 
 export const medals = pgTable("medals", {
   id: serial("id").primaryKey(),
@@ -176,9 +176,9 @@ export const userSubscription = pgTable("user_subscription", {
   stripeCurrentPeriodEnd: timestamp("stripe_current_period_end").notNull(),
 });
 
-/* ────────────────────────
-   RELACIONES
-   ──────────────────────── */
+
+/*    RELACIONES */
+
 
 export const coursesRelations = relations(courses, ({ many }) => ({
   userProgress: many(userProgress),

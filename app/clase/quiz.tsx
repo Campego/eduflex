@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Confetti from "react-confetti";
 import { useAudio, useWindowSize, useMount } from "react-use";
@@ -66,7 +65,11 @@ export const Quiz = ({
   const { open: openPracticeModal } = usePracticeModal();
 
   useMount(() => {
-    if (initialPercentage === 100) openPracticeModal();
+    console.log("initialPercentage:", initialPercentage); // 👈
+    if (initialPercentage === 100) {
+      console.log("Activando practice mode"); // 👈
+      openPracticeModal();
+    }
   });
 
   const [lessonId] = useState(initialLessonId);
@@ -215,16 +218,22 @@ export const Quiz = ({
           })();
         });
       } else {
+        console.log("🧪 Intentando reducir corazones...");
         startTransition(() => {
           void (async () => {
             try {
               const res = await reduceHearts(challenge.id);
+              console.log("🧪 Resultado de reduceHearts:", res);
+
               if (res?.error === "hearts") {
+                console.log("No quedan corazones. Mostrando modal.");
                 openHeartsModal();
                 return;
               }
+
               await handleWrong(topicId);
-            } catch {
+            } catch (error) {
+              console.error("Error en reduceHearts:", error);
               toast.error("Something went wrong.");
             }
           })();
@@ -309,7 +318,9 @@ export const Quiz = ({
         <Footer
           lessonId={lessonId}
           status="completed"
-          onCheck={() =>{ router.push("/curso")}}
+          onCheck={() => {
+            router.push("/curso");
+          }}
         />
       </>
     );
@@ -321,8 +332,6 @@ export const Quiz = ({
 
   return (
     <>
-      {incorrectAudio}
-      {correctAudio}
       <Header
         hearts={hearts}
         percentage={percentage}

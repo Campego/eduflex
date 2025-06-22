@@ -1,7 +1,10 @@
+import { eq } from "drizzle-orm";
+
+import DiplomaClient from "@/components/diploma-client";
 import db from "@/db/drizzle";
 import { medals } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import DiplomaClient from "@/components/diploma-client";
+
+
 
 interface SearchParams {
   searchParams: {

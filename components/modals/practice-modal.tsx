@@ -32,12 +32,11 @@ export const PracticeModal = () => {
           </div>
 
           <DialogTitle className="text-center text-2xl font-bold">
-            Practice lesson
+            Practicando
           </DialogTitle>
 
           <DialogDescription className="text-center text-base">
-            Use practice lessons to regain hearts and points. You cannot loose
-            hearts or points in practice lessons.
+            Entrando en modo practica.
           </DialogDescription>
         </DialogHeader>
 
@@ -49,7 +48,7 @@ export const PracticeModal = () => {
               size="lg"
               onClick={close}
             >
-              I understand
+              Ok
             </Button>
           </div>
         </DialogFooter>

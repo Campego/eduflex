@@ -5,10 +5,9 @@ import { useTransition } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 
-import { refillHearts } from "@/actions/user-progress";
+
 import { createStripeUrl } from "@/actions/user-subscription";
 import { Button } from "@/components/ui/button";
-import { MAX_HEARTS, POINTS_TO_REFILL } from "@/constants";
 
 type ItemsProps = {
   hearts: number;
@@ -17,19 +16,17 @@ type ItemsProps = {
 };
 
 export const Items = ({
-  hearts,
-  points,
   hasActiveSubscription,
 }: ItemsProps) => {
   const [pending, startTransition] = useTransition();
 
-  const onRefillHearts = () => {
+  /* const onRefillHearts = () => {
     if (pending || hearts === MAX_HEARTS || points < POINTS_TO_REFILL) return;
 
     startTransition(() => {
-      refillHearts().catch(() => toast.error("Also salio mal."));
+      refillHearts().catch(() => toast.error("Algo salio mal."));
     });
-  };
+  }; */
 
   const onUpgrade = () => {
     toast.loading("Redirigiendo para checkout...");

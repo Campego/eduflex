@@ -1,4 +1,4 @@
-// lib/adaptive.ts
+
 export async function generateAdaptiveChallenge(topicId: number) {
   const res = await fetch("/api/generate-adaptive-question", {
     method: "POST",
@@ -24,7 +24,6 @@ export async function updateTopicScore({
   });
 }
 
-// /lib/adaptive.ts
 export async function submitAdaptiveAnswer(payload: {
   questionId: number;
   isCorrect: boolean;

@@ -151,7 +151,7 @@ export const getLesson = cache(async (id?: number) => {
   const { userId } = auth();
   if (!userId) return null;
 
-  // ⚠️ SOLO usar getCourseProgress si no se pasó un ID
+  // SOLO usar getCourseProgress si no se pasó un ID
   let lessonId = id;
   if (!lessonId) {
     const courseProgress = await getCourseProgress();

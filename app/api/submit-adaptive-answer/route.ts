@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs";
 import { userAttempts } from "@/db/schema";
 import db from "@/db/drizzle";
 
@@ -10,8 +11,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    // 🔒 Reemplaza esto con el ID real del usuario si usas Clerk/Auth
-    const userId = "demo-user";
+    const { userId } = auth();
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     await db.insert(userAttempts).values({
       userId,

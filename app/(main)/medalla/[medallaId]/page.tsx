@@ -1,9 +1,9 @@
-// ✅ app/medals/[medalId]/page.tsx
-import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
+import { notFound } from "next/navigation";
+
+import DiplomaClient from "@/components/diploma-client";
 import db from "@/db/drizzle";
 import { medals } from "@/db/schema";
-import DiplomaClient from "@/components/diploma-client";
 
 interface DiplomaPageProps {
   params: {
