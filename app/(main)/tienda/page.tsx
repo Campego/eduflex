@@ -17,7 +17,7 @@ const ShopPage = async () => {
     userSubscriptionData,
   ]);
 
-  if (!userProgress || !userProgress.activeCourse) redirect("/courses");
+  if (!userProgress || !userProgress.activeCourse) redirect("/cursos");
 
   const isPro = !!userSubscription?.isActive;
 

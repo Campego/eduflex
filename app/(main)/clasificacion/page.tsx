@@ -23,7 +23,7 @@ const LeaderboardPage = async () => {
     leaderboardData,
   ]);
 
-  if (!userProgress || !userProgress.activeCourse) redirect("/courses");
+  if (!userProgress || !userProgress.activeCourse) redirect("/cursos");
 
   const isPro = !!userSubscription?.isActive;
 
