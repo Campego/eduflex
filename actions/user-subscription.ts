@@ -48,8 +48,10 @@ export const createStripeUrl = async () => {
     metadata: {
       userId,
     },
-    success_url: returnUrl,
-    cancel_url: returnUrl,
+    /* success_url: returnUrl,
+    cancel_url: returnUrl, */
+    success_url: "https://eduflex-nu.vercel.app/dashboard",
+    cancel_url: "https://eduflex-nu.vercel.app/dashboard",
   });
 
   return { data: stripeSession.url };

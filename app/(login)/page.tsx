@@ -1,5 +1,14 @@
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import {
+  ClerkLoaded,
+  ClerkLoading,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+} from "@clerk/nextjs";
+import { Loader } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
@@ -81,28 +90,52 @@ export default function MarketingPage() {
               Con EduFlex, tu progreso es continuo y personalizado. Accede a
               recursos interactivos, donde sea que estés.
             </p>
-            <div className="flex gap-4">
-              <SignUpButton
-                mode="modal"
-                afterSignInUrl="/dashboard"
-                afterSignUpUrl="/dashboard"
-              >
-                <Button className="rounded-md bg-[#fb923c] px-6 py-2 text-white hover:bg-[#ff5a4a]">
-                  Regístrate
-                </Button>
-              </SignUpButton>
-              <SignInButton
-                mode="modal"
-                afterSignInUrl="/dashboard"
-                afterSignUpUrl="/dashboard"
-              >
-                <Button
-                  variant="default"
-                  className="rounded-md border border-[#fb923c] px-6 py-2 text-[#fb923c] hover:bg-[#ffe9e7]"
-                >
-                  ¿Ya tienes cuenta?
-                </Button>
-              </SignInButton>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
+              <ClerkLoading>
+                <Loader className="h-5 w-5 animate-spin text-muted-foreground" />
+              </ClerkLoading>
+
+              <ClerkLoaded>
+                <SignedOut>
+                  <SignUpButton
+                    mode="modal"
+                    afterSignInUrl="/dashboard"
+                    afterSignUpUrl="/dashboard"
+                  >
+                    <Button
+                      size="lg"
+                      className="bg-orange-400 text-white hover:bg-orange-500"
+                    >
+                      Regístrate
+                    </Button>
+                  </SignUpButton>
+
+                  <SignInButton
+                    mode="modal"
+                    afterSignInUrl="/dashboard"
+                    afterSignUpUrl="/dashboard"
+                  >
+                    <Button
+                      size="lg"
+                      variant="ghost"
+                      className="border border-orange-400 text-orange-400 hover:bg-orange-50"
+                    >
+                      ¿Ya tienes cuenta?
+                    </Button>
+                  </SignInButton>
+                </SignedOut>
+
+                <SignedIn>
+                  <Link href="/dashboard">
+                    <Button
+                      size="lg"
+                      className="bg-blue-700 text-white hover:bg-blue-800"
+                    >
+                      Ir al Dashboard
+                    </Button>
+                  </Link>
+                </SignedIn>
+              </ClerkLoaded>
             </div>
           </div>
           <div className="lg:w-1/2" />
