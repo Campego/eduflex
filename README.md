@@ -1,29 +1,42 @@
-#comando para instalar dependencias necesarias \ 
-npm install --legacy-peer-deps 
-#Para generar la base de datos \
-npm run db:push 
-#poblar db de datos \
-npm run db:prod 
+# Comandos para desarrollo
+
+### Instalar dependencias necesarias
+
+npm install --legacy-peer-deps
+
+### Generar la base de datos
+
+npm run db:push
+
+### Poblar la base de datos
+
+npm run db:prod
 
 
-#.env 
+### ENV
 
-* deshabilitar next.js telemetry
+Deshabilitar la telemetría de Next.js
+
 NEXT_TELEMETRY_DISABLED=1
 
-* Keys Clerk
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+Claves de Clerk
+
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY= \
 CLERK_SECRET_KEY=
 
-* url de postgres (se saca del neon)
-DATABASE_URL= 
+URL de conexión a PostgreSQL (desde Neon)
 
-* stripe api key y webhook
-STRIPE_API_SECRET_KEY=
+DATABASE_URL=
+
+Stripe API Key y Webhook Secret
+
+STRIPE_API_SECRET_KEY= \
 STRIPE_WEBHOOK_SECRET=
 
-* public app url
+URL pública de la aplicación (modo desarrollo)
+
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 
- *usuario admin de clerk
+ID de usuario administrador de Clerk (separar por comas si hay varios)
+
 CLERK_ADMIN_IDS=
