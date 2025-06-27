@@ -1,9 +1,9 @@
-#comando para instalar dependencias necesarias  
-npm install --legacy-peer-deps \
-#Para generar la base de datos 
-npm run db:push \
-#poblar db de datos 
-npm run db:prod \
+#comando para instalar dependencias necesarias \ 
+npm install --legacy-peer-deps 
+#Para generar la base de datos \
+npm run db:push 
+#poblar db de datos \
+npm run db:prod 
 
 
 #.env 
