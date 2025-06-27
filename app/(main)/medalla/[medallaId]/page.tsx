@@ -26,7 +26,7 @@ export default async function DiplomaPage({ params }: DiplomaPageProps) {
     <DiplomaClient
       medal={{
         ...medal,
-        dateAwarded: medal.dateAwarded.toISOString(), // <- solución clave
+        dateAwarded: medal.dateAwarded.toISOString(), 
       }}
     />
   );

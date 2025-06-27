@@ -149,7 +149,7 @@ export default async function CourseDashboardPage({
         {weakestTopic && (
           <div className="rounded border bg-yellow-50 p-4 shadow">
             <h2 className="mb-2 font-semibold text-yellow-800">
-              🛠️ Tema más débil
+              Tema más débil
             </h2>
             <p className="text-yellow-900">
               {weakestTopic.topic.title} (
