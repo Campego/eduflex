@@ -18,27 +18,41 @@ export default function MarketingPage() {
       <aside className="group fixed left-0 top-0 z-50 flex h-full w-16 flex-col items-center justify-center gap-6 bg-white shadow-md transition-all duration-300 hover:w-40 hover:items-start">
         <div className="flex items-center gap-2 pl-4">
           <Image src="/facebook.svg" alt="Facebook" width={24} height={24} />
-          <span className="hidden text-sm text-gray-700 group-hover:inline">
-            Facebook
-          </span>
+          <a
+            href="https://www.facebook.com/profile.php?id=61577703247058"
+            target="_blank"
+          >
+            <span className="hidden text-sm text-gray-700 group-hover:inline">
+              Facebook
+            </span>
+          </a>
         </div>
         <div className="flex items-center gap-2 pl-4">
           <Image src="/instagram.svg" alt="Instagram" width={24} height={24} />
-          <span className="hidden text-sm text-gray-700 group-hover:inline">
-            Instagram
-          </span>
+          <a
+            href="https://www.instagram.com/eduflexplataforma/"
+            target="_blank"
+          >
+            <span className="hidden text-sm text-gray-700 group-hover:inline">
+              Instagram
+            </span>
+          </a>
         </div>
         <div className="flex items-center gap-2 pl-4">
           <Image src="/twitter.svg" alt="Twitter" width={24} height={24} />
-          <span className="hidden text-sm text-gray-700 group-hover:inline">
-            Twitter
-          </span>
+          <a href="https://x.com/Eduflex216740/" target="_blank">
+            <span className="hidden text-sm text-gray-700 group-hover:inline">
+              Twitter
+            </span>
+          </a>
         </div>
         <div className="flex items-center gap-2 pl-4">
           <Image src="/tiktok.svg" alt="Tiktok" width={24} height={24} />
-          <span className="hidden text-sm text-gray-700 group-hover:inline">
-            Tiktok
-          </span>
+          <a href="https://www.tiktok.com/@eduflex_plataform" target="_blank">
+            <span className="hidden text-sm text-gray-700 group-hover:inline">
+              Tiktok
+            </span>
+          </a>
         </div>
       </aside>
 
