@@ -26,7 +26,7 @@ const main = async () => {
 
     const [course] = await db
       .insert(schema.courses)
-      .values([{ title: "Curso básico de SCRUM", imageSrc: "/scrum.svg" }])
+      .values([{ title: "Curso básico de SCRUM", imageSrc: "/scrum.svg", medalImageName : "scrum-basico.png" }])
       .returning();
 
     const [unit] = await db
